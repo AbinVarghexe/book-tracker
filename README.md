@@ -1,26 +1,27 @@
 # SuperrBook — Book Tracker 📚
 
-> A warm, unhurried, and tactile web application to track books you want to read, are currently reading, and have finished.
+> A playful, fast, and tactile web application to track books you want to read, are currently reading, and have finished.
 
-Built with **Semantic HTML5, CSS3, and Vanilla JavaScript (ES6+)**, following the **Superr Style Reference** from `design.md` (Cream Paper `#fdfbf9`, Charcoal `#171717`, Cocoa Ink `#2b1a07`, Marker Orange `#ff6f1e`, and 20px pill buttons).
+Built with **Pure Semantic HTML5, CSS3, and Vanilla JavaScript (ES6+)**, styled using the **Duolingo Style Reference** (Paper White `#ffffff` canvas, Eager Green `#58cc02`, Spark Blue `#1cb0f6`, Amber Gold `#ff9600`, chunky 3D buttons and cards, and Nunito typography).
 
 ---
 
 ## ✨ Features
 
-- **Editorial Landing Page**: Warm schoolyard notebook hero with handwritten annotations, marker highlights, tactile notebook object with laminated school name-label sticker, floating stickers, and a 3-step value story.
-- **Google Sign-In & Multi-User Support**: Sign in with Google or choose a sample profile. Each user's books are isolated in their own localStorage namespace (`superrbook_books_${userId}`), allowing private book collections and clean user switching.
+- **Duolingo Storybook UI**: Pure white paper canvas with chunky 3D buttons, rounded card containers, and a playful reading mascot.
+- **Proper UI Capitalization**: Clean Title Case and uppercase labels (`HOME`, `HOW IT WORKS`, `MY BOOKSHELF`, `OPEN TRACKER`, `ADD TO BOOKSHELF`, `TO READ`, `READING`, `FINISHED`).
+- **Custom 3D Dropdown Components**: Bespoke interactive popover menus for both the form status selector and in-card status changers (no default OS dropdowns), with active checkmarks and stacking context management.
 - **Add Books**: Form with Title, Author, and Status (`To read`, `Reading`, `Finished`).
-- **Strict Real-time Validation**: Title and Author are required. Submitting blank fields immediately shows inline alerts (`"Please enter a title"`, `"Please enter an author"`), which clear automatically on keystroke.
+- **Strict Real-Time Validation**: Title and Author are required. Submitting blank inputs displays exact inline error messages (`"Please enter a title"`, `"Please enter an author"`) that clear instantly upon typing.
 - **Newest First**: Books appear chronologically ordered with the most recent at the top.
-- **Case-Insensitive Search**: Live search across book titles and authors simultaneously (e.g. searching `"ben"` or `"BEN"` finds *"Aadujeevitham" by Benyamin*).
-- **Status Filter Tabs**: Easily toggle views between `All`, `To read`, `Reading`, and `Finished`.
-- **Instant Status Transitions**: In-card status selector to switch a book from *To read* $\rightarrow$ *Reading* $\rightarrow$ *Finished* with real-time badge updates.
-- **Data Persistence**: Automatically saved to browser `localStorage` so your collection survives page refreshes and browser restarts.
-- **Live Statistics**: Real-time counter bar showing Total books, To read, Reading, and Finished counts.
-- **Delete Book**: Easily remove books with instant state synchronization.
-- **Mobile Responsive**: Fully responsive layout that adapts smoothly from desktop to mobile screens with touch-friendly targets.
-- **Signature Footer**: Full-width Marker Orange (`#ff6f1e`) footer with 56px curved top border.
+- **Case-Insensitive Search**: Live real-time search across book titles and authors simultaneously (e.g. searching `"ben"` or `"BEN"` matches *"Aadujeevitham" by Benyamin*).
+- **Status Filter Tabs**: Easily toggle views between `ALL`, `TO READ`, `READING`, and `FINISHED` with live count badges.
+- **Instant Status Transitions**: In-card status changer to switch a book between *To read* $\rightarrow$ *Reading* $\rightarrow$ *Finished* with real-time badge updates.
+- **100% Private LocalStorage**: Saved automatically in browser `localStorage` with zero accounts, zero passwords, and zero external tracking.
+- **Live Counters**: Real-time counter bar showing Total books, To read, Reading, and Finished counts.
+- **Delete Book**: Remove any book with instant state and stats synchronization.
+- **Mobile Responsive**: Fully responsive layout that adapts smoothly across mobile, tablet, and desktop screens.
+- **Signature Green Footer**: Full-bleed Eager Green (`#58cc02`) footer band.
 
 ---
 
@@ -42,7 +43,7 @@ Since this app uses zero build tools, you can run it instantly:
    ```
 
 2. **Open in any browser:**
-   - Double click `index.html` to open it in Chrome, Edge, Safari, or Firefox.
+   - Double-click `index.html` to open it in Chrome, Edge, Safari, or Firefox.
    - Or start a lightweight local server:
      ```bash
      # Using Python
@@ -56,18 +57,29 @@ Since this app uses zero build tools, you can run it instantly:
 
 ---
 
-## 🧪 Testing Checklist
+## 🧪 Testing
 
-Try these tests yourself:
-1. **Empty Field Validation**: Click **Add book to list** with empty fields $\rightarrow$ Observe `"Please enter a title"` and `"Please enter an author"` under the inputs.
-2. **Adding a Book**: Add *"Aadujeevitham"* by *Benyamin* $\rightarrow$ Verify it appears at the very top of the list with a `"To read"` badge.
-3. **Search Matching**: Type `"ben"` or `"BEN"` into the search box $\rightarrow$ Only Benyamin's book stays visible.
-4. **Status Changing**: Change status from *"To read"* to *"Finished"* $\rightarrow$ Badge updates and Finished count increments.
-5. **Google Sign-In**: Click **Sign in with Google** in the top navigation $\rightarrow$ Pick a sample profile (e.g. Alex Reed) $\rightarrow$ Observe avatar and user library sync.
-6. **Data Persistence**: Refresh the browser $\rightarrow$ All added books and statuses remain intact.
-7. **Mobile View**: Resize the window or inspect under mobile emulation (375px) $\rightarrow$ Clean single-column layout.
+Run the automated test suite verifying validation, search, ordering, and status transitions:
+
+```bash
+node tests/test-feature1.js
+```
 
 ---
 
-## 📄 License
-MIT License. Free to use and modify.
+## 📁 Repository Structure
+
+```text
+├── index.html            # Main semantic markup
+├── styles.css            # Duolingo 3D styling tokens & responsive layout
+├── app.js                # State management, validation, search & custom dropdown logic
+├── design.md             # Design tokens & Duolingo style reference
+├── PROMPTS.md            # Detailed prompt log and AI bug reflections
+├── README.md             # Project documentation
+├── .nojekyll             # GitHub Pages bypass for static assets
+├── .gitignore            # Git ignore configuration
+├── agents/
+│   └── AGENTS.md         # Operational agent rules & regulations
+└── tests/
+    └── test-feature1.js  # Automated unit test suite
+```

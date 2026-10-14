@@ -11,7 +11,7 @@ This document provides the final submission deliverables for the SuperrBook web 
 
 ---
 
-## 2. Five Most Important Prompts
+## 2. Key Prompts & Iterations
 
 ### Prompt 1: Project Scaffolding & Architecture
 > *"I want to build a Book Tracker web page using plain HTML, CSS and JavaScript. Features: add a book with title, author and status (To read, Reading, Finished), show the list newest first, search by title or author, change status, and keep the data after a refresh. Before writing any code, list the files you will create and explain how the data will be saved."*
@@ -41,39 +41,27 @@ This document provides the final submission deliverables for the SuperrBook web 
 
 ---
 
-### Prompt 5: Superr Design System, Landing Page & Google Sign-In
-> *"Create a landing page with well structured format, also create a login for each user with Google sign in, also I have updated the design.md file so change the Design file."*
+### Prompt 5: Duolingo Design System, Proper Capitalization & Custom 3D Dropdowns
+> *"Use captiall letters in the UI properlu and redisitgn the UI: Duolingo Style Reference"* and *"There's a bug in the dropdown. It is not appearing above the selector. Please fix that."*
 
-**Outcome:** Transformed the visual language to the warm schoolyard aesthetic from `design.md` (Cream Paper canvas `#fdfbf9`, Charcoal borders `#171717`, Cocoa Ink headlines `#2b1a07`, Marker Orange `#ff6f1e` accents and 56px curved footer). Added an editorial hero with a tactile notebook replica, illustrated stickers, story features, and Google Sign-In with isolated book collections per user.
+**Outcome:** Redesigned the entire UI with Duolingo's playful classroom aesthetic (Paper White `#ffffff`, Eager Green `#58cc02`, Spark Blue `#1cb0f6`, chunky 3D buttons/cards, vector mascot, full-bleed green footer). Built custom interactive 3D dropdown components for both the form and in-card status changes, and fixed the stacking context issue by elevating `.book-card.dropdown-active` to `z-index: 200` and popovers to `z-index: 9999`.
 
 ---
 
-## 3. One Time the AI Got Something Wrong, and How It Was Fixed
+## 3. Notable AI Bug Diagnosed & Fixed
 
-### The Problem
+### Case-Insensitive Search Bug
 During development of the search functionality and status synchronization, the initial search code used exact string casing:
 ```javascript
-// Initial search check
 const titleMatch = book.title.includes(query);
 const authorMatch = book.author.includes(query);
 ```
-When searching for `"ben"` (lowercase) or `"BEN"` (uppercase), the book *"Aadujeevitham"* by *"Benyamin"* disappeared from the list because `.includes()` performed a case-sensitive check. Furthermore, when changing a book's status in the dropdown, the card's badge text changed, but the summary counters in the top stats bar did not recalculate until a manual page refresh.
+When searching for `"ben"` (lowercase) or `"BEN"` (uppercase), the book *"Aadujeevitham"* by *"Benyamin"* disappeared from the list because `.includes()` performed a case-sensitive check.
 
-### How It Was Identified
-I tested the app like a real user with deliberate edge cases:
-1. Typed `"ben"` and `"BEN"` into the search box $\rightarrow$ the book was filtered out because of capital "B".
-2. Changed *"Aadujeevitham"* from *"To read"* to *"Finished"* $\rightarrow$ the counter in the stats bar remained stuck at `0 Finished` and `1 To read`.
-
-### How It Was Fixed
-I prompted the AI:
-> *"When I search for 'ben' or 'BEN', nothing shows even though the book 'Aadujeevitham' by 'Benyamin' is in the list. Also, changing a book's status does not update the count in the top stats bar until I refresh. What is wrong and how do we fix both?"*
-
-The AI corrected both issues in `app.js`:
-1. **Case-Insensitive Search:** Normalized both query and book text with `.toLowerCase().trim()`:
-   ```javascript
-   const query = currentSearchQuery.toLowerCase().trim();
-   const titleMatch = book.title.toLowerCase().includes(query);
-   const authorMatch = book.author.toLowerCase().includes(query);
-   return titleMatch || authorMatch;
-   ```
-2. **Synchronous Stats Recalculation:** Centralized `updateStats()` inside `renderApp()`, so every status mutation immediately recalculates counts across the stats cards and filter tab badges before saving to `localStorage`.
+**Fix:** Updated the search logic to normalize both queries and book fields using `.toLowerCase().trim()`:
+```javascript
+const q = currentSearchQuery.toLowerCase().trim();
+const titleMatch = (book.title || '').toLowerCase().includes(q);
+const authorMatch = (book.author || '').toLowerCase().includes(q);
+```
+Now, any case combination matches accurately.
