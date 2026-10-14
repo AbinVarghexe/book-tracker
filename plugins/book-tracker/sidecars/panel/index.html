@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Tracker — Sidecar</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  <!-- Antigravity Preload script provides window.sidecar bridge -->
+  <script src="/preload.js"></script>
+</head>
+<body class="sidecar-body">
+
+  <div class="sidecar-container">
+    <header class="sidecar-header">
+      <div class="brand">
+        <div class="brand-icon-wrap">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-0.5-5Z"/>
+            <path d="M6 2v20"/>
+          </svg>
+        </div>
+        <span class="brand-name">superrbook.</span>
+      </div>
+      <div class="active-library-banner">
+        <span class="library-dot">●</span>
+        <span>Side Pane</span>
+      </div>
+    </header>
+
+    <!-- Compact Stats -->
+    <div class="stats-bar compact-stats">
+      <div class="stat-card stat-total">
+        <div class="stat-card-header">
+          <span class="stat-icon">📚</span>
+          <span class="stat-label">Total</span>
+        </div>
+        <span class="stat-value" id="statTotal">0</span>
+      </div>
+      <div class="stat-card stat-toread">
+        <div class="stat-card-header">
+          <span class="stat-icon">⏳</span>
+          <span class="stat-label">To read</span>
+        </div>
+        <span class="stat-value" id="statToRead">0</span>
+      </div>
+      <div class="stat-card stat-reading">
+        <div class="stat-card-header">
+          <span class="stat-icon">📖</span>
+          <span class="stat-label">Reading</span>
+        </div>
+        <span class="stat-value" id="statReading">0</span>
+      </div>
+      <div class="stat-card stat-finished">
+        <div class="stat-card-header">
+          <span class="stat-icon">🏆</span>
+          <span class="stat-label">Done</span>
+        </div>
+        <span class="stat-value" id="statFinished">0</span>
+      </div>
+    </div>
+
+    <!-- Quick Add Form -->
+    <div class="add-book-card compact-add-card">
+      <div class="card-header">
+        <span class="card-badge-pill">★ QUICK LOG</span>
+        <h3 class="card-title">add a book</h3>
+      </div>
+      <form id="bookForm" novalidate>
+        <div class="form-group">
+          <label for="bookTitle" class="form-label">Book Title <span class="required">*</span></label>
+          <input type="text" id="bookTitle" class="form-input" placeholder="e.g. Aadujeevitham" autocomplete="off">
+          <span class="error-msg" id="titleError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="bookAuthor" class="form-label">Author <span class="required">*</span></label>
+          <input type="text" id="bookAuthor" class="form-input" placeholder="e.g. Benyamin" autocomplete="off">
+          <span class="error-msg" id="authorError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="bookStatus" class="form-label">Reading Status</label>
+          <div class="select-wrapper">
+            <select id="bookStatus" class="form-select">
+              <option value="To read" selected>To read</option>
+              <option value="Reading">Reading</option>
+              <option value="Finished">Finished</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-pill btn-primary-submit" id="addBookBtn">
+          <span>add to shelf</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- Controls Panel -->
+    <div class="controls-panel">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by title or author...">
+        <button type="button" id="clearSearchBtn" class="clear-search-btn" style="display: none;">&times;</button>
+      </div>
+
+      <div class="filter-tabs" id="filterTabs">
+        <button type="button" class="tab-btn active" data-filter="All">all (<span id="countFilterAll">0</span>)</button>
+        <button type="button" class="tab-btn" data-filter="To read">to read (<span id="countFilterToRead">0</span>)</button>
+        <button type="button" class="tab-btn" data-filter="Reading">reading (<span id="countFilterReading">0</span>)</button>
+        <button type="button" class="tab-btn" data-filter="Finished">finished (<span id="countFilterFinished">0</span>)</button>
+      </div>
+    </div>
+
+    <div class="list-meta">
+      <span class="list-heading" id="listHeading">All Books</span>
+      <span class="list-sub" id="listSub">Newest first</span>
+    </div>
+
+    <ul id="bookList" class="book-list"></ul>
+
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <div class="empty-icon-wrap"><span class="empty-sticker">📖</span></div>
+      <h3 class="empty-title" id="emptyTitle">No books found</h3>
+      <p class="empty-desc" id="emptyDesc">Add your first book above to start tracking!</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
