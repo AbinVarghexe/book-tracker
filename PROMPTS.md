@@ -55,6 +55,20 @@ Added the live search bar with instant query matching, status filter tabs, anima
 > "Create a landing page with well structured format, also create a login for each user with Google sign in, also I have updated the design.md file so change the Design file."
 
 **What happened:**  
-1. **Superr Design System:** Replaced Wise tokens with the **Superr Style Reference** (`design.md`): Cream Paper `#fdfbf9` canvas, Charcoal `#171717` borders and text, Cocoa Ink `#2b1a07` headlines, Marker Orange `#ff6f1e` annotations and 56px curved footer brand band, Dew Drop `#f7efe9` cards, and 20px pill buttons.
-2. **Structured Landing Page:** Built a 2-column editorial hero with handwritten script captions, marker highlights, tactile notebook object with laminated school name-label sticker, floating stickers (lightning, bear, sparkle), and a 3-step value story section leading into the dashboard.
-3. **Google Authentication & Multi-User Isolation:** Integrated Google Identity Services + user profile management. Users can sign in with Google or sample accounts (Alex Reed, Priya Nair). Each user's books are isolated in their own localStorage namespace (`superrbook_books_${userId}`), allowing individual book catalogs per user with an intuitive avatar dropdown and sign-out capability.
+1. **Superr Design System:** Adopted the **Superr Style Reference** (`design.md`): Cream Paper `#fdfbf9` canvas, Charcoal `#171717` borders and text, Cocoa Ink `#2b1a07` headlines, Marker Orange `#ff6f1e` annotations and 56px curved footer brand band, Dew Drop `#f7efe9` cards, and 20px pill buttons.
+2. **Structured Landing Page:** Built a 2-column editorial hero with handwritten script captions, marker highlights, tactile notebook object with laminated school name-label sticker, floating stickers, and a 3-step value story section.
+3. **Google Authentication & Multi-User Isolation:** Integrated Google Identity Services + user profile management. Users can sign in with Google or sample accounts (Alex Reed, Priya Nair). Each user's books are isolated in their own localStorage namespace (`superrbook_books_${userId}`).
+
+---
+
+### Prompt 7: Visual Bug Diagnosis & Redesign of "How It Works" Cards
+**Prompt:**  
+> "this portion is not properly designed" (accompanied by screenshot of the 3 feature cards with collapsed padding and plain text borders).
+
+**What happened & How it was fixed:**  
+1. **Root Cause Analysis:** In `styles.css`, `.feature-card` had `padding: var(--spacing-28);`, but `--spacing-28` was not defined in `:root` (only `--spacing-24` and `--spacing-32` existed). This caused browsers to invalidate the CSS property and render the cards with `0px` padding, causing all text and numbers to touch the card borders.
+2. **Design Enhancement:**
+   - Defined `--spacing-28: 28px;` and applied explicit robust padding (`padding: 34px 28px 30px;`).
+   - Redesigned the cards to be tactile schoolyard index cards: `border: 2px solid var(--color-charcoal); border-radius: 16px; box-shadow: 4px 4px 0px var(--color-charcoal);`.
+   - Added a header inside each card with an embossed `STEP 01/02/03` pill badge and colorful sticker icon badges (✍️, ⚡, 💾) tilted at playful angles.
+   - Refined typography and added lift effects (`translateY(-4px)` with expanded shadow).
