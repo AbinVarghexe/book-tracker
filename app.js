@@ -389,13 +389,16 @@
 
       return `
         <li class="book-card" data-id="${book.id}">
+          <div class="book-card-accent ${badgeClass}"></div>
           <div class="book-info">
-            <h4 class="book-title">${escapeHtml(book.title)}</h4>
+            <div class="book-title-row">
+              <h4 class="book-title">${escapeHtml(book.title)}</h4>
+            </div>
             <div class="book-author">
               <span class="author-prefix">by</span>
-              <strong>${escapeHtml(book.author)}</strong>
+              <strong class="author-name">${escapeHtml(book.author)}</strong>
             </div>
-            ${formattedDate ? `<div class="book-meta-date">Added on ${formattedDate}</div>` : ''}
+            ${formattedDate ? `<div class="book-meta-date"><span class="meta-icon">📅</span> Added on ${formattedDate}</div>` : ''}
           </div>
 
           <div class="book-actions">
@@ -403,8 +406,8 @@
             <div class="status-pill-control" title="Click to change reading status">
               <span class="status-badge ${badgeClass}">
                 <span class="status-dot">●</span>
-                <span>${escapeHtml(book.status)}</span>
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <span class="status-text">${escapeHtml(book.status)}</span>
+                <svg class="status-arrow" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
               </span>
@@ -417,7 +420,7 @@
 
             <!-- Delete Button -->
             <button type="button" class="btn-delete" title="Delete book" aria-label="Delete ${escapeHtml(book.title)}">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="3 6 5 6 21 6"></polyline>
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                 <line x1="10" y1="11" x2="10" y2="17"></line>

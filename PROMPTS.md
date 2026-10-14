@@ -63,12 +63,19 @@ Added the live search bar with instant query matching, status filter tabs, anima
 
 ### Prompt 7: Visual Bug Diagnosis & Redesign of "How It Works" Cards
 **Prompt:**  
-> "this portion is not properly designed" (accompanied by screenshot of the 3 feature cards with collapsed padding and plain text borders).
+> "this portion is not properly designed" (with screenshot of feature cards with collapsed padding).
 
 **What happened & How it was fixed:**  
-1. **Root Cause Analysis:** In `styles.css`, `.feature-card` had `padding: var(--spacing-28);`, but `--spacing-28` was not defined in `:root` (only `--spacing-24` and `--spacing-32` existed). This caused browsers to invalidate the CSS property and render the cards with `0px` padding, causing all text and numbers to touch the card borders.
-2. **Design Enhancement:**
-   - Defined `--spacing-28: 28px;` and applied explicit robust padding (`padding: 34px 28px 30px;`).
-   - Redesigned the cards to be tactile schoolyard index cards: `border: 2px solid var(--color-charcoal); border-radius: 16px; box-shadow: 4px 4px 0px var(--color-charcoal);`.
-   - Added a header inside each card with an embossed `STEP 01/02/03` pill badge and colorful sticker icon badges (✍️, ⚡, 💾) tilted at playful angles.
-   - Refined typography and added lift effects (`translateY(-4px)` with expanded shadow).
+1. **Root Cause Analysis:** In `styles.css`, `.feature-card` had `padding: var(--spacing-28);`, but `--spacing-28` was not defined in `:root` (only `--spacing-24` and `--spacing-32` existed). This caused browsers to invalidate the CSS property and render the cards with `0px` padding.
+2. **Design Enhancement:** Defined `--spacing-28: 28px;`, applied explicit robust padding (`34px 28px 30px`), and added step pill badges and circular sticker characters.
+
+---
+
+### Prompt 8: Comprehensive Redesign of Dashboard & Book Cards
+**Prompt:**  
+> "also this dashboard section is also not proeprly designed" (with screenshot of stretched dashboard, unpadded add form, and plain book list).
+
+**What happened & How it was fixed:**  
+1. **Add Book Form Card:** Upgraded to a tactile library slip card with `padding: 32px 28px;`, `★ NEW LOG` badge, warm Dew Drop form inputs with orange focus rings, and an interactive pill action button.
+2. **Reading Record Cards:** Redesigned book cards into tactile reading slips with vertical bookmark accent stripes (amber for To read, blue for Reading, sprout green for Finished), bold `Fraunces` titles, script author prefixes in Marker Orange, library date-stamp tags (`📅 Added on ...`), and styled circular delete buttons.
+3. **Stats Bar & Cache Busting:** Added icon headers to the 4 stats cards (`📚`, `⏳`, `📖`, `🏆`) and added cache buster `?v=2.3` to `styles.css` in `index.html` to guarantee instant browser refreshes on GitHub Pages.

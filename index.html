@@ -13,7 +13,7 @@
   <!-- Google Identity Services (GSI) for Google Sign-In -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2.3">
 </head>
 <body>
 
@@ -226,19 +226,31 @@
         <!-- Live Stats Bar (Dew Drop Cards) -->
         <div class="stats-bar" id="statsBar">
           <div class="stat-card">
-            <span class="stat-label">Total Books</span>
+            <div class="stat-card-header">
+              <span class="stat-icon">📚</span>
+              <span class="stat-label">Total Books</span>
+            </div>
             <span class="stat-value" id="statTotal">0</span>
           </div>
           <div class="stat-card">
-            <span class="stat-label">To read</span>
+            <div class="stat-card-header">
+              <span class="stat-icon">⏳</span>
+              <span class="stat-label">To read</span>
+            </div>
             <span class="stat-value" id="statToRead">0</span>
           </div>
           <div class="stat-card">
-            <span class="stat-label">Reading</span>
+            <div class="stat-card-header">
+              <span class="stat-icon">📖</span>
+              <span class="stat-label">Reading</span>
+            </div>
             <span class="stat-value" id="statReading">0</span>
           </div>
           <div class="stat-card highlight">
-            <span class="stat-label">Finished</span>
+            <div class="stat-card-header">
+              <span class="stat-icon">🏆</span>
+              <span class="stat-label">Finished</span>
+            </div>
             <span class="stat-value" id="statFinished">0</span>
           </div>
         </div>
@@ -250,6 +262,7 @@
           <aside class="form-column">
             <div class="card add-book-card">
               <div class="card-header">
+                <span class="card-badge-pill">★ NEW LOG</span>
                 <h3 class="card-title">add a book</h3>
                 <p class="card-desc">Log your next read into your notebook</p>
               </div>
