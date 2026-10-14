@@ -23,8 +23,8 @@ Built with **Semantic HTML5, CSS3, and Vanilla JavaScript (ES6+)**, following th
 
 ## 🚀 Live Demo
 
-- **Live Website**: *(Deployed to GitHub Pages)*
-- **Source Code**: *(GitHub Repository)*
+- **Live Website**: [https://abinvarghexe.github.io/book-tracker/](https://abinvarghexe.github.io/book-tracker/)
+- **Source Code**: [https://github.com/AbinVarghexe/book-tracker](https://github.com/AbinVarghexe/book-tracker)
 
 ---
 
