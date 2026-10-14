@@ -1,7 +1,7 @@
 /**
  * SuperrBook — Book Tracker Application
  * Built with Vanilla JavaScript ES6+
- * Adheres to AGENTS.md, Duolingo Style Reference, and proper UI capitalization
+ * Adheres to AGENTS.md, Duolingo Style Reference, and custom 3D dropdown UI
  */
 
 (function () {
@@ -45,9 +45,16 @@
   const bookForm = document.getElementById('bookForm');
   const bookTitleInput = document.getElementById('bookTitle');
   const bookAuthorInput = document.getElementById('bookAuthor');
-  const bookStatusSelect = document.getElementById('bookStatus');
+  const bookStatusInput = document.getElementById('bookStatus');
   const titleError = document.getElementById('titleError');
   const authorError = document.getElementById('authorError');
+
+  // Custom Form Dropdown Elements
+  const formStatusContainer = document.getElementById('formStatusContainer');
+  const formStatusTrigger = document.getElementById('formStatusTrigger');
+  const formStatusTriggerIcon = document.getElementById('formStatusTriggerIcon');
+  const formStatusTriggerText = document.getElementById('formStatusTriggerText');
+  const formStatusMenu = document.getElementById('formStatusMenu');
 
   // DOM Elements - Search & Filter
   const searchInput = document.getElementById('searchInput');
@@ -78,6 +85,7 @@
   function initApp() {
     loadBooks();
     setupEventListeners();
+    setupFormCustomDropdown();
     renderApp();
   }
 
@@ -109,6 +117,82 @@
     } catch (e) {
       console.error('Failed to save books to localStorage:', e);
     }
+  }
+
+  // =========================================================================
+  // Custom Form Dropdown Setup
+  // =========================================================================
+
+  function setupFormCustomDropdown() {
+    if (!formStatusTrigger || !formStatusMenu) return;
+
+    formStatusTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = formStatusMenu.style.display === 'flex';
+      closeAllDropdowns();
+      if (!isOpen) {
+        formStatusMenu.style.display = 'flex';
+        formStatusTrigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    formStatusMenu.addEventListener('click', (e) => {
+      const option = e.target.closest('.custom-option');
+      if (!option) return;
+
+      const val = option.getAttribute('data-value');
+      setFormStatus(val);
+      closeAllDropdowns();
+    });
+  }
+
+  function setFormStatus(status) {
+    if (bookStatusInput) {
+      bookStatusInput.value = status;
+    }
+
+    let icon = '⏳';
+    let label = 'To Read';
+
+    if (status === 'Reading') {
+      icon = '📖';
+      label = 'Reading';
+    } else if (status === 'Finished') {
+      icon = '🏆';
+      label = 'Finished';
+    }
+
+    if (formStatusTriggerIcon) formStatusTriggerIcon.textContent = icon;
+    if (formStatusTriggerText) formStatusTriggerText.textContent = label;
+
+    if (formStatusMenu) {
+      const options = formStatusMenu.querySelectorAll('.custom-option');
+      options.forEach(opt => {
+        const isSelected = opt.getAttribute('data-value') === status;
+        opt.classList.toggle('selected', isSelected);
+        opt.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+        const check = opt.querySelector('.option-check');
+        if (check) check.style.display = isSelected ? 'inline' : 'none';
+      });
+    }
+  }
+
+  function closeAllDropdowns() {
+    // Close form dropdown
+    if (formStatusMenu) {
+      formStatusMenu.style.display = 'none';
+    }
+    if (formStatusTrigger) {
+      formStatusTrigger.setAttribute('aria-expanded', 'false');
+    }
+
+    // Close all open in-card popovers
+    document.querySelectorAll('.card-status-popover').forEach(menu => {
+      menu.style.display = 'none';
+    });
+    document.querySelectorAll('.status-btn-pill').forEach(btn => {
+      btn.setAttribute('aria-expanded', 'false');
+    });
   }
 
   // =========================================================================
@@ -161,10 +245,23 @@
       filterTabs.addEventListener('click', handleFilterClick);
     }
 
-    // Book list delegation for status changes and deletion
+    // Global click listener to close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.custom-select-container') && !e.target.closest('.status-selector-container')) {
+        closeAllDropdowns();
+      }
+    });
+
+    // Escape key closes dropdowns
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeAllDropdowns();
+      }
+    });
+
+    // In-card status change dropdown toggles & clicks
     if (bookList) {
-      bookList.addEventListener('change', handleListChange);
-      bookList.addEventListener('click', handleListClick);
+      bookList.addEventListener('click', handleBookListClick);
     }
   }
 
@@ -177,7 +274,7 @@
 
     const titleValue = bookTitleInput.value.trim();
     const authorValue = bookAuthorInput.value.trim();
-    const statusValue = bookStatusSelect.value;
+    const statusValue = bookStatusInput ? bookStatusInput.value : 'To read';
 
     let hasError = false;
 
@@ -220,7 +317,7 @@
 
     // Reset Form
     bookForm.reset();
-    bookStatusSelect.value = 'To read';
+    setFormStatus('To read');
     clearInputError(bookTitleInput, titleError);
     clearInputError(bookAuthorInput, authorError);
 
@@ -273,7 +370,6 @@
     renderFilteredBooks();
   }
 
-  // Case-insensitive search across title AND author
   function filterBooks() {
     let result = [...books];
 
@@ -294,36 +390,56 @@
   }
 
   // =========================================================================
-  // In-Card Status Changing & Deletion
+  // In-Card Custom Dropdown & Actions
   // =========================================================================
 
-  function handleListChange(e) {
-    const select = e.target.closest('.status-change-select');
-    if (!select) return;
-
-    const bookId = select.getAttribute('data-book-id');
-    const newStatus = select.value;
-
-    const book = books.find(b => b.id === bookId);
-    if (book) {
-      book.status = newStatus;
-      saveBooks();
-      renderApp();
+  function handleBookListClick(e) {
+    // 1. Toggle In-Card Dropdown
+    const triggerBtn = e.target.closest('.status-btn-pill');
+    if (triggerBtn) {
+      e.stopPropagation();
+      const bookId = triggerBtn.getAttribute('data-book-id');
+      const popover = document.getElementById(`statusPopover-${bookId}`);
+      if (popover) {
+        const isOpen = popover.style.display === 'flex';
+        closeAllDropdowns();
+        if (!isOpen) {
+          popover.style.display = 'flex';
+          triggerBtn.setAttribute('aria-expanded', 'true');
+        }
+      }
+      return;
     }
-  }
 
-  function handleListClick(e) {
+    // 2. Select Option in Popover
+    const optionEl = e.target.closest('.status-option');
+    if (optionEl) {
+      e.stopPropagation();
+      const bookId = optionEl.getAttribute('data-book-id');
+      const newStatus = optionEl.getAttribute('data-status');
+
+      const book = books.find(b => b.id === bookId);
+      if (book && newStatus) {
+        book.status = newStatus;
+        saveBooks();
+        closeAllDropdowns();
+        renderApp();
+      }
+      return;
+    }
+
+    // 3. Delete Book
     const deleteBtn = e.target.closest('.btn-delete-book');
-    if (!deleteBtn) return;
+    if (deleteBtn) {
+      const bookId = deleteBtn.getAttribute('data-book-id');
+      if (!bookId) return;
 
-    const bookId = deleteBtn.getAttribute('data-book-id');
-    if (!bookId) return;
-
-    const index = books.findIndex(b => b.id === bookId);
-    if (index !== -1) {
-      books.splice(index, 1);
-      saveBooks();
-      renderApp();
+      const index = books.findIndex(b => b.id === bookId);
+      if (index !== -1) {
+        books.splice(index, 1);
+        saveBooks();
+        renderApp();
+      }
     }
   }
 
@@ -356,7 +472,6 @@
   function renderFilteredBooks() {
     const filtered = filterBooks();
 
-    // List Meta with Proper Capitalization
     if (listHeading) {
       if (currentStatusFilter === 'All') {
         listHeading.textContent = 'All Books';
@@ -462,21 +577,41 @@
           </div>
         </div>
 
-        <!-- Status Change Dropdown & Actions -->
+        <!-- Custom 3D Dropdown Status Controls -->
         <div class="book-actions">
-          <div class="status-selector-pill">
-            <div class="status-btn-pill ${statusClass}">
+          <div class="status-selector-container">
+            <button type="button" class="status-btn-pill ${statusClass}" data-book-id="${book.id}" aria-haspopup="listbox" aria-expanded="false" title="Click to change reading status">
               <span class="status-emoji">${statusIcon}</span>
               <span class="status-caps-text">${statusLabelCaps}</span>
               <svg class="chevron-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
+            </button>
+
+            <!-- Custom 3D Popover Menu -->
+            <div class="card-status-popover" id="statusPopover-${book.id}" role="listbox" style="display: none;">
+              <div class="status-option option-toread ${safeStatus === 'To read' ? 'active' : ''}" data-book-id="${book.id}" data-status="To read" role="option">
+                <div class="option-content">
+                  <span class="status-emoji">⏳</span>
+                  <span class="status-option-title">TO READ</span>
+                </div>
+                ${safeStatus === 'To read' ? '<span class="status-check-mark">✓</span>' : ''}
+              </div>
+              <div class="status-option option-reading ${safeStatus === 'Reading' ? 'active' : ''}" data-book-id="${book.id}" data-status="Reading" role="option">
+                <div class="option-content">
+                  <span class="status-emoji">📖</span>
+                  <span class="status-option-title">READING</span>
+                </div>
+                ${safeStatus === 'Reading' ? '<span class="status-check-mark">✓</span>' : ''}
+              </div>
+              <div class="status-option option-finished ${safeStatus === 'Finished' ? 'active' : ''}" data-book-id="${book.id}" data-status="Finished" role="option">
+                <div class="option-content">
+                  <span class="status-emoji">🏆</span>
+                  <span class="status-option-title">FINISHED</span>
+                </div>
+                ${safeStatus === 'Finished' ? '<span class="status-check-mark">✓</span>' : ''}
+              </div>
             </div>
-            <select class="status-change-select" data-book-id="${book.id}" aria-label="Change status for ${safeTitle}">
-              <option value="To read" ${safeStatus === 'To read' ? 'selected' : ''}>To read</option>
-              <option value="Reading" ${safeStatus === 'Reading' ? 'selected' : ''}>Reading</option>
-              <option value="Finished" ${safeStatus === 'Finished' ? 'selected' : ''}>Finished</option>
-            </select>
           </div>
 
           <!-- Delete Button -->

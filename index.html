@@ -293,18 +293,47 @@
                   <span class="error-msg" id="authorError" aria-live="polite"></span>
                 </div>
 
-                <!-- Status -->
+                <!-- Reading Status Custom Dropdown -->
                 <div class="form-group">
-                  <label for="bookStatus" class="form-label">Reading Status</label>
-                  <div class="select-wrapper">
-                    <select id="bookStatus" name="status" class="form-select">
-                      <option value="To read" selected>To read</option>
-                      <option value="Reading">Reading</option>
-                      <option value="Finished">Finished</option>
-                    </select>
-                    <svg class="select-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
-                      <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
+                  <label class="form-label">Reading Status</label>
+                  <div class="custom-select-container" id="formStatusContainer">
+                    <button type="button" class="custom-select-trigger" id="formStatusTrigger" aria-haspopup="listbox" aria-expanded="false">
+                      <div class="trigger-content">
+                        <span class="trigger-icon" id="formStatusTriggerIcon">⏳</span>
+                        <span class="trigger-text" id="formStatusTriggerText">To Read</span>
+                      </div>
+                      <svg class="trigger-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </button>
+
+                    <!-- Custom Popover Menu -->
+                    <div class="custom-select-dropdown" id="formStatusMenu" role="listbox" style="display: none;">
+                      <div class="custom-option selected option-toread" role="option" data-value="To read" aria-selected="true">
+                        <div class="option-left">
+                          <span class="option-icon">⏳</span>
+                          <span class="option-label">TO READ</span>
+                        </div>
+                        <span class="option-check">✓</span>
+                      </div>
+                      <div class="custom-option option-reading" role="option" data-value="Reading" aria-selected="false">
+                        <div class="option-left">
+                          <span class="option-icon">📖</span>
+                          <span class="option-label">READING</span>
+                        </div>
+                        <span class="option-check" style="display: none;">✓</span>
+                      </div>
+                      <div class="custom-option option-finished" role="option" data-value="Finished" aria-selected="false">
+                        <div class="option-left">
+                          <span class="option-icon">🏆</span>
+                          <span class="option-label">FINISHED</span>
+                        </div>
+                        <span class="option-check" style="display: none;">✓</span>
+                      </div>
+                    </div>
+
+                    <!-- Hidden Input for Form Submission -->
+                    <input type="hidden" id="bookStatus" name="status" value="To read">
                   </div>
                 </div>
 

@@ -675,38 +675,128 @@ body {
   min-height: 18px;
 }
 
-.select-wrapper {
+/* Custom Form Status Dropdown */
+.custom-select-container {
   position: relative;
   width: 100%;
 }
 
-.form-select {
+.custom-select-trigger {
   width: 100%;
-  padding: 13px 40px 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
   border-radius: var(--radius-md);
   border: 2px solid var(--color-border-gray);
+  border-bottom: 3px solid #d1d5db;
   background-color: #ffffff;
   font-family: var(--font-main);
   font-size: 15px;
   font-weight: 700;
   color: var(--color-charcoal);
   cursor: pointer;
-  appearance: none;
-  outline: none;
-  transition: border-color 0.15s ease;
+  transition: all 0.15s ease;
+  user-select: none;
 }
 
-.form-select:focus {
+.custom-select-trigger:hover {
+  border-color: #d1d5db;
+}
+
+.custom-select-trigger:focus,
+.custom-select-trigger[aria-expanded="true"] {
   border-color: var(--color-spark-blue);
+  box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.2);
 }
 
-.select-arrow {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
+.trigger-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.trigger-icon {
+  font-size: 18px;
+}
+
+.trigger-chevron {
   color: var(--color-pencil-gray);
+  transition: transform 0.2s ease;
+}
+
+.custom-select-trigger[aria-expanded="true"] .trigger-chevron {
+  transform: rotate(180deg);
+}
+
+/* Custom Popover Dropdown */
+.custom-select-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 2px solid var(--color-border-gray);
+  border-bottom: 4px solid #cecece;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  padding: 6px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.custom-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.053em;
+  color: var(--color-charcoal);
+  transition: background-color 0.12s ease;
+  user-select: none;
+}
+
+.option-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.option-icon {
+  font-size: 16px;
+}
+
+.custom-option:hover {
+  background-color: #f7f9fa;
+}
+
+.custom-option.option-toread:hover,
+.custom-option.option-toread.selected {
+  background-color: #fff4e5;
+  color: var(--color-amber-read);
+}
+
+.custom-option.option-reading:hover,
+.custom-option.option-reading.selected {
+  background-color: #e0f2fe;
+  color: var(--color-spark-blue);
+}
+
+.custom-option.option-finished:hover,
+.custom-option.option-finished.selected {
+  background-color: #eaffdc;
+  color: var(--color-eager-green);
+}
+
+.option-check {
+  font-weight: 900;
+  font-size: 15px;
 }
 
 /* Right Column: Controls Toolbar */
@@ -940,11 +1030,10 @@ body {
   flex-shrink: 0;
 }
 
-/* Status Change 3D Pill Control */
-.status-selector-pill {
+/* In-Card Custom Status Dropdown Popover */
+.status-selector-container {
   position: relative;
   display: inline-flex;
-  align-items: center;
 }
 
 .status-btn-pill {
@@ -960,6 +1049,7 @@ body {
   cursor: pointer;
   border-bottom-width: 3px;
   transition: all 0.1s ease;
+  user-select: none;
 }
 
 .status-btn-pill.status-toread {
@@ -983,14 +1073,85 @@ body {
   border-bottom: 3px solid #46a302;
 }
 
-.status-change-select {
+.status-btn-pill:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.status-btn-pill .chevron-icon {
+  transition: transform 0.2s ease;
+}
+
+.status-btn-pill[aria-expanded="true"] .chevron-icon {
+  transform: rotate(180deg);
+}
+
+/* In-Card Status Popover Menu */
+.card-status-popover {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 175px;
+  background-color: #ffffff;
+  border: 2px solid var(--color-border-gray);
+  border-bottom: 4px solid #cecece;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 6px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.status-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.053em;
   cursor: pointer;
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+  transition: background-color 0.12s ease;
+  user-select: none;
+}
+
+.option-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-option:hover {
+  background-color: #f7f9fa;
+}
+
+.status-option.option-toread:hover,
+.status-option.option-toread.active {
+  background-color: #fff4e5;
+  color: var(--color-amber-read);
+}
+
+.status-option.option-reading:hover,
+.status-option.option-reading.active {
+  background-color: #e0f2fe;
+  color: var(--color-spark-blue);
+}
+
+.status-option.option-finished:hover,
+.status-option.option-finished.active {
+  background-color: #eaffdc;
+  color: var(--color-eager-green);
+}
+
+.status-check-mark {
+  font-weight: 900;
+  font-size: 14px;
 }
 
 /* Delete Button */

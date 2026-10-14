@@ -117,6 +117,19 @@ Added the live search bar with instant query matching, status filter tabs, anima
    - **Canvas & Colors:** Pure white paper canvas (`#ffffff`), signature Eager Green (`#58cc02`), Storybook Green (`#d7ffb8`), Spark Blue (`#1cb0f6`), Amber Gold (`#ff9600`), Charcoal (`#4b4b4b`), and Pencil Gray (`#777777`).
    - **Chunky 3D Buttons & Cards:** Implemented Duolingo's signature 3D pressed bevels (`border: 2px solid; border-bottom: 4px solid <darker-tone>; border-radius: 14px-16px;`) that depress 2px on click.
    - **Playful Reading Mascot:** Created a vector classroom reading mascot with a floating speech bubble (`"Ready to read today? 📖"`).
-   - **Full-Width Green Footer:** Added the signature full-bleed Eager Green (`#58cc02`) footer band.
+---
+
+### Prompt 11: Custom Duolingo 3D Dropdown Components
+**Prompt:**  
+> "We designed the dropdown. The dropdown is in the default version."
+
+**What happened & How it was resolved:**  
+1. **Diagnosis:**  
+   - Both the Add Book form status dropdown and the in-card status changer relied on native HTML `<select>` elements, which caused browsers and operating systems to open un-styled, default grey OS select menus.
+2. **Custom Duolingo 3D Dropdown Components:**  
+   - **Form Status Dropdown:** Replaced the default select with a custom 3D interactive popover component (`.custom-select-trigger` + `.custom-select-dropdown`). Features 3 colored options (`⏳ TO READ`, `📖 READING`, `🏆 FINISHED`) with active checkmarks and smooth 180° rotating chevron animations.
+   - **In-Card Status Dropdown:** Replaced the invisible overlay select with a custom 3D popover menu (`.card-status-popover`) anchored directly below each status pill. Clicking the badge opens a Duolingo popover with option highlights and active checkmarks.
+   - **Accessibility & Dismissal:** Implemented click-outside detection and `Escape` key handlers to close all open dropdowns automatically.
+
 
 
