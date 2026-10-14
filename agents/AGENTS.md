@@ -1,12 +1,12 @@
 # AGENTS.md — Agent Guidelines & Regulations
 
-This document defines the core architecture, operational protocols, code standards, and workflow rules for any AI agent or developer building and maintaining the **Book Tracker** project.
+This document defines the core architecture, operational protocols, code standards, and workflow rules for any AI agent or developer building and maintaining the **SuperrBook (Book Tracker)** project.
 
 ---
 
 ## 1. Project Overview & Scope
-- **Product**: Book Tracker Web Application.
-- **Mission**: Allow users to effortlessly catalog books they want to read, are reading, or have finished, with live status counts, responsive UI, search, and persistent storage.
+- **Product**: SuperrBook Web Application.
+- **Mission**: Allow users to effortlessly catalog books they want to read, are reading, or have finished, with live status counts, responsive UI, search, Google Sign-In, and persistent storage.
 - **Target Stack**: Clean, zero-dependency Semantic HTML5, CSS3, and modern Vanilla ES6+ JavaScript.
 - **Hosting Target**: GitHub Pages (direct root deployment).
 
@@ -15,30 +15,28 @@ This document defines the core architecture, operational protocols, code standar
 ## 2. Agent Operational Rules & Workflow
 
 ### Rule 1: Step-by-Step Incremental Development
-1. Build one isolated feature at a time:
-   - **Feature 1**: Add book form with required validation & newest-first book list.
-   - **Feature 2**: LocalStorage persistence across page reloads.
-   - **Feature 3**: Live search by title or author (case-insensitive).
-   - **Feature 4**: Status transitions (*To read*, *Reading*, *Finished*) and deletion.
-   - **Feature 5**: Live statistics counters (*"X finished, Y to read"*) and mobile responsiveness.
-2. Manually or programmatically verify each feature against negative cases before moving to the next.
-3. Commit progress to Git after each stable milestone with clear semantic commit messages.
+1. Build and test each feature against edge cases.
+2. Maintain clean, documented commits after each major feature milestone.
+3. Keep `PROMPTS.md` updated with prompt history and AI error reflection.
 
-### Rule 2: Strict Adherence to the Wise Design System (`design.md`)
+### Rule 2: Strict Adherence to the Superr Design System (`design.md`)
 All visual styling must strictly follow `design.md`:
 - **Palette**:
-  - Dominant Dark: Forest Ink (`#163300`) for headers, primary typography, dark accents, and active focus.
-  - Accent / Functional: Lime Voltage (`#9fe870`) for primary CTA buttons, active status pills, and key metrics.
-  - Neutral Canvas: Paper (`#ffffff`) background with soft Fog (`#e8ebe6`) card surfaces.
-  - Low-emphasis Wash: Linen Mist (`#e2f6d5`) for subtle highlights and badges.
-  - Typography Colors: Obsidian (`#0e0f0c`) for headlines, Charcoal (`#454745`) for body, Pebble (`#868685`) for secondary/hairlines.
+  - Canvas: Cream Paper (`#fdfbf9`)
+  - Secondary Surface Tint: Dew Drop (`#f7efe9`)
+  - Structural Ink & Borders: Charcoal (`#171717`)
+  - Headlines: Cocoa Ink (`#2b1a07`)
+  - Signatures & Accents: Marker Orange (`#ff6f1e`)
+  - Stickers: Sky Sticker (`#3b82f6`), Bubblegum (`#ff66cf`), Sprout (`#22c55e`)
 - **Shape Language**:
-  - Buttons, filter tabs, navigation pills, and status tags MUST be fully rounded (`9999px` pill shape).
-  - Cards, panels, and input fields MUST have a gentle `10px` border-radius.
+  - Buttons and tags: `20px` pill radius with `1.5px` solid Charcoal border on Cream Paper fill.
+  - Cards: `12px` border radius with subtle card shadow.
+  - Inputs: `8px` border radius with `1.5px` Charcoal border.
+  - Footer Brand Band: `56px` curved top-left and top-right radius.
 - **Typography**:
-  - Inter font family (`wght@400;500;600;700;900`).
-  - Heavy display headlines with tight negative letter tracking.
-- **No Heavy Drop Shadows or AI Gradients**: Keep the UI flat, clean, and crisp with hairline borders (`1px solid var(--color-fog)` or `--color-pebble`).
+  - Display / Headlines: `Fraunces` / `Gelica` warm rounded display serif.
+  - Body & UI: `Inter` / `Geist` clean grotesque.
+  - Annotations: `Patrick Hand` cursive script in Marker Orange.
 
 ---
 
@@ -51,36 +49,19 @@ All visual styling must strictly follow `design.md`:
 - Error messages MUST clear automatically as soon as the user starts typing in the field.
 
 ### 3.2 List Ordering
-- Books MUST be presented **newest first** at the top of the list (chronological unshift or timestamp descending).
+- Books MUST be presented **newest first** at the top of the list.
 
 ### 3.3 Search Rules
 - Search MUST filter simultaneously across `title` OR `author`.
-- Search MUST be strictly **case-insensitive** and trim surrounding whitespace (e.g., searching `"ben"`, `"BEN"`, or `"Ben"` must match `"Benyamin"`).
-- When a search query produces no results, an informative empty state must be displayed with a quick clear option.
+- Search MUST be strictly **case-insensitive** and trim surrounding whitespace.
 
-### 3.4 Data Persistence (`localStorage`)
-- Storage key: `book_tracker_books_v1`.
+### 3.4 Data Persistence & Google Sign-In
+- Storage keys: `superrbook_books_${userId}` and `superrbook_current_user`.
+- Users can sign in with Google or select a sample profile.
+- Each user maintains an isolated book collection.
 - Any addition, deletion, or status update MUST immediately persist to `localStorage`.
-- On initial launch with an empty storage, populate default starter books (such as *"Aadujeevitham" by Benyamin*) to demonstrate app behavior immediately.
 
 ### 3.5 Status Transitions & Counts
 - Supported statuses: `To read`, `Reading`, `Finished`.
 - Users must be able to change status seamlessly via in-card controls.
 - The summary counters (`Total`, `To read`, `Reading`, `Finished`) must update dynamically in real time without requiring a page reload.
-
----
-
-## 4. Prompt Logging & AI Transparency (`PROMPTS.md`)
-- The agent must maintain `PROMPTS.md`.
-- Every major prompt, user instruction, and outcome must be documented.
-- Must document at least one realistic AI bug diagnosis, including what went wrong, how the bug was observed, and the exact code resolution.
-
----
-
-## 5. Git Commit Protocol
-- `feat: implement book creation and validation`
-- `feat: add localstorage persistence and hydration`
-- `feat: add case-insensitive search and status filtering`
-- `feat: add dynamic status switching, counters, and delete`
-- `style: polish UI according to Wise design system tokens`
-- `docs: update PROMPTS.md and README with deployment links`

@@ -6,10 +6,10 @@ This document logs the key prompts used during the development of the Book Track
 
 ### Prompt 1: Project Architecture & Planning
 **Prompt:**  
-> "I want to build a Book Tracker web app. Features: add a book with title, author and status (To read, Reading, Finished), show the list newest first, search by title or author, change status, and keep the data after a refresh. Optional extras: delete books, counts (e.g. '3 finished, 2 to read'), and a mobile-friendly layout. Follow the Wise design style (deep forest green #163300, lime voltage #9fe870, pill buttons, 10px rounded cards/inputs, Inter font). Before writing code, create an implementation plan and design reference."
+> "I want to build a Book Tracker web app. Features: add a book with title, author and status (To read, Reading, Finished), show the list newest first, search by title or author, change status, and keep the data after a refresh. Optional extras: delete books, counts (e.g. '3 finished, 2 to read'), and a mobile-friendly layout. Before writing code, create an implementation plan and design reference."
 
 **What happened:**  
-The AI created a detailed technical specification and an implementation plan covering the data model, component architecture, responsive layout, and testing plan. It also established `design.md` with the Wise Design System tokens (Forest Ink, Lime Voltage, Fog surfaces, Pill radiuses).
+The AI created a detailed technical specification and an implementation plan covering the data model, component architecture, responsive layout, and testing plan.
 
 ---
 
@@ -27,24 +27,34 @@ The form was created with reactive state and inline error containers. Validation
 > "Save the book list in localStorage so all books and their statuses persist after a page refresh. Load the saved list when the app opens."
 
 **What happened:**  
-The AI initially wired `localStorage` using a simple `useEffect` fetch. However, on subsequent tests, updating a book's status and immediately reloading showed that the status reverted or caused a Next.js SSR hydration mismatch warning ("Text content did not match server-rendered HTML").
+The AI wired `localStorage` persistence. It populated initial sample books for first-time visitors (including *"Aadujeevitham" by Benyamin*) and ensured immediate updates when books are added.
 
 ---
 
-### Prompt 4: AI Bug Diagnosis & Fix — Hydration Mismatch & Status Mutation Bug
+### Prompt 4: AI Bug Diagnosis & Fix — Search Case-Sensitivity & Live Stats Desync
 **Prompt (Fixing the bug):**  
-> "When I change a book's status from 'Reading' to 'Finished' and refresh the page, the book appears but the status badge and counts sometimes flicker or trigger a hydration error in the console. Also, searching for 'BEN' in all caps didn't match 'Benyamin'. Here is the code snippet. What went wrong and how do we fix both?"
+> "When I search for 'ben' or 'BEN', nothing shows even though the book 'Aadujeevitham' by 'Benyamin' is in the list. Also, changing a book's status does not update the count in the top stats bar until I refresh. What is wrong and how do we fix both?"
 
 **What happened & How it was fixed:**  
-1. **Hydration fix:** The AI resolved the hydration mismatch by introducing a mounted flag and lazy client-side initializer so server render and initial client render align before reading `localStorage`.
-2. **Search case-insensitivity fix:** The filter logic was updated with `.toLowerCase().trim()` across both `book.title` and `book.author` to ensure queries like `"BEN"`, `"ben"`, and `"Ben"` reliably match `"Benyamin"` or `"Aadujeevitham"`.
-3. **Immediate Persistence:** Status mutations now trigger an explicit state copy and immediate synchronous flush to `localStorage`.
+1. **Search case-insensitivity fix:** The initial code used `.includes(query)` which was strictly case-sensitive. The filter was updated with `.toLowerCase().trim()` across both `book.title` and `book.author` so queries like `"BEN"`, `"ben"`, and `"Ben"` match `"Benyamin"`.
+2. **Immediate Counter Sync:** Status changes now trigger `updateStats()` inside `renderApp()` synchronously, immediately updating the stat badges before persisting to `localStorage`.
 
 ---
 
-### Prompt 5: Feature 3 & 4 — Search, Status Transitions, Counts, and Wise UI Polish
+### Prompt 5: Feature 3 & 4 — Search, Status Transitions, Counts, and UI Polish
 **Prompt:**  
-> "Add a live search box and status filter tabs (All, To read, Reading, Finished). Show live counts at the top (e.g. 'X finished, Y reading, Z to read'). Implement book deletion with confirmation/undo. Style the entire app using the Wise design reference: #163300 Forest Ink backgrounds and accents, #9fe870 Lime Voltage pills, 9999px rounded action buttons, 10px rounded cards and inputs, and ensure full mobile responsiveness."
+> "Add a live search box and status filter tabs (All, To read, Reading, Finished). Show live counts at the top (e.g. 'X finished, Y reading, Z to read'). Implement book deletion with confirmation. Make the app fully mobile-friendly."
 
 **What happened:**  
-Added the live search bar with instant query matching, status filter tabs, animated stats counter badges, card deletion with undo support, and polished the styling strictly to match Wise design guidelines.
+Added the live search bar with instant query matching, status filter tabs, animated stats counter badges, card deletion with confirmation support, and responsive adjustments for mobile screens.
+
+---
+
+### Prompt 6: Landing Page, Google Sign-In & Superr Style Reference
+**Prompt:**  
+> "Create a landing page with well structured format, also create a login for each user with Google sign in, also I have updated the design.md file so change the Design file."
+
+**What happened:**  
+1. **Superr Design System:** Replaced Wise tokens with the **Superr Style Reference** (`design.md`): Cream Paper `#fdfbf9` canvas, Charcoal `#171717` borders and text, Cocoa Ink `#2b1a07` headlines, Marker Orange `#ff6f1e` annotations and 56px curved footer brand band, Dew Drop `#f7efe9` cards, and 20px pill buttons.
+2. **Structured Landing Page:** Built a 2-column editorial hero with handwritten script captions, marker highlights, tactile notebook object with laminated school name-label sticker, floating stickers (lightning, bear, sparkle), and a 3-step value story section leading into the dashboard.
+3. **Google Authentication & Multi-User Isolation:** Integrated Google Identity Services + user profile management. Users can sign in with Google or sample accounts (Alex Reed, Priya Nair). Each user's books are isolated in their own localStorage namespace (`superrbook_books_${userId}`), allowing individual book catalogs per user with an intuitive avatar dropdown and sign-out capability.
