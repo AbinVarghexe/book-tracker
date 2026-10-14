@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Tracker — Keep Track of What You Read</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="brand">
+        <svg class="brand-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-0.5-5Z"/>
+          <path d="M6 2v20"/>
+        </svg>
+        <span class="brand-name">Book Tracker</span>
+      </div>
+      <div class="nav-tagline">
+        <span class="status-pill active-indicator">● Live Tracker</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    
+    <!-- Hero / Headline Section -->
+    <section class="hero-section">
+      <div class="hero-badge">READING COMPANION</div>
+      <h1 class="display-headline">TRACK EVERY PAGE.</h1>
+      <p class="hero-subtext">A focused space to log your reading journey, discover your pace, and build lifelong habits.</p>
+      
+      <!-- Live Counter Bar -->
+      <div class="stats-bar" id="statsBar">
+        <div class="stat-card">
+          <span class="stat-label">Total Books</span>
+          <span class="stat-value" id="statTotal">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">To read</span>
+          <span class="stat-value stat-toread" id="statToRead">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Reading</span>
+          <span class="stat-value stat-reading" id="statReading">0</span>
+        </div>
+        <div class="stat-card highlight">
+          <span class="stat-label">Finished</span>
+          <span class="stat-value stat-finished" id="statFinished">0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- App Grid: Form & List -->
+    <div class="app-layout">
+      
+      <!-- Left Column: Add Book Card -->
+      <aside class="form-column">
+        <div class="card add-book-card">
+          <div class="card-header">
+            <h2 class="card-title">Add a book</h2>
+            <p class="card-desc">Enter details to add to your reading tracker</p>
+          </div>
+
+          <form id="bookForm" novalidate>
+            <!-- Title Input -->
+            <div class="form-group">
+              <label for="bookTitle" class="form-label">Book Title <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="bookTitle" 
+                name="title" 
+                class="form-input" 
+                placeholder="e.g. Aadujeevitham"
+                autocomplete="off"
+              >
+              <span class="error-msg" id="titleError" aria-live="polite"></span>
+            </div>
+
+            <!-- Author Input -->
+            <div class="form-group">
+              <label for="bookAuthor" class="form-label">Author <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="bookAuthor" 
+                name="author" 
+                class="form-input" 
+                placeholder="e.g. Benyamin"
+                autocomplete="off"
+              >
+              <span class="error-msg" id="authorError" aria-live="polite"></span>
+            </div>
+
+            <!-- Status Dropdown -->
+            <div class="form-group">
+              <label for="bookStatus" class="form-label">Reading Status</label>
+              <div class="select-wrapper">
+                <select id="bookStatus" name="status" class="form-select">
+                  <option value="To read" selected>To read</option>
+                  <option value="Reading">Reading</option>
+                  <option value="Finished">Finished</option>
+                </select>
+                <svg class="select-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary" id="addBookBtn">
+              <span>Add Book</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </aside>
+
+      <!-- Right Column: Books List with Search and Filter -->
+      <section class="list-column">
+        
+        <!-- Controls: Search Bar & Status Tabs -->
+        <div class="controls-panel">
+          <!-- Search Box -->
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input 
+              type="text" 
+              id="searchInput" 
+              class="search-input" 
+              placeholder="Search by title or author..."
+              autocomplete="off"
+            >
+            <button type="button" id="clearSearchBtn" class="clear-search-btn" title="Clear search" aria-label="Clear search" style="display: none;">
+              &times;
+            </button>
+          </div>
+
+          <!-- Status Filter Tabs -->
+          <div class="filter-tabs" role="tablist" id="filterTabs">
+            <button type="button" class="tab-btn active" data-filter="All">All (<span id="countFilterAll">0</span>)</button>
+            <button type="button" class="tab-btn" data-filter="To read">To read (<span id="countFilterToRead">0</span>)</button>
+            <button type="button" class="tab-btn" data-filter="Reading">Reading (<span id="countFilterReading">0</span>)</button>
+            <button type="button" class="tab-btn" data-filter="Finished">Finished (<span id="countFilterFinished">0</span>)</button>
+          </div>
+        </div>
+
+        <!-- Books List Container -->
+        <div class="books-container">
+          <div class="list-meta">
+            <span class="list-heading" id="listHeading">All Books</span>
+            <span class="list-sub" id="listSub">Newest first</span>
+          </div>
+
+          <!-- The List -->
+          <ul id="bookList" class="book-list">
+            <!-- Dynamically populated by app.js -->
+          </ul>
+
+          <!-- Empty State -->
+          <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-icon-wrap">
+              <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-0.5-5Z"/>
+                <path d="M9 10h6"/>
+                <path d="M9 14h4"/>
+              </svg>
+            </div>
+            <h3 class="empty-title" id="emptyTitle">No books found</h3>
+            <p class="empty-desc" id="emptyDesc">Add your first book using the form on the left to start tracking!</p>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-container">
+      <p class="footer-text">Built with vanilla HTML, CSS & JavaScript • Styled with Wise Design System</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
