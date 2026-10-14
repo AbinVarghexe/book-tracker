@@ -1,13 +1,13 @@
 /**
- * SuperrBook — Tactile Book Tracker Application
+ * SuperrBook — Book Tracker Application
  * Built with Vanilla JavaScript ES6+
- * Adheres to AGENTS.md, design.md tokens, and refero-design principles
+ * Adheres to AGENTS.md, Duolingo Style Reference, and proper UI capitalization
  */
 
 (function () {
   'use strict';
 
-  // Primary localStorage key
+  // LocalStorage storage keys
   const STORAGE_KEY = 'superrbook_books_v1';
   const LEGACY_STORAGE_KEY = 'superrbook_books_guest';
 
@@ -71,10 +71,6 @@
   const countFilterReading = document.getElementById('countFilterReading');
   const countFilterFinished = document.getElementById('countFilterFinished');
 
-  // Notebook Sticker Elements
-  const stickerUserName = document.getElementById('stickerUserName');
-  const stickerUserStatus = document.getElementById('stickerUserStatus');
-
   // =========================================================================
   // Initialization & Local Storage
   // =========================================================================
@@ -88,7 +84,6 @@
   function loadBooks() {
     try {
       let stored = localStorage.getItem(STORAGE_KEY);
-      // Fallback/migrate from legacy key if primary doesn't exist
       if (!stored) {
         stored = localStorage.getItem(LEGACY_STORAGE_KEY);
       }
@@ -126,7 +121,7 @@
       bookForm.addEventListener('submit', handleFormSubmit);
     }
 
-    // Real-time input validation clearance
+    // Real-time input error clearing
     if (bookTitleInput) {
       bookTitleInput.addEventListener('input', () => {
         if (bookTitleInput.value.trim()) {
@@ -148,7 +143,7 @@
       searchInput.addEventListener('input', handleSearchInput);
     }
 
-    // Clear search
+    // Clear search button
     if (clearSearchBtn) {
       clearSearchBtn.addEventListener('click', () => {
         if (searchInput) {
@@ -161,12 +156,12 @@
       });
     }
 
-    // Filter tab clicks
+    // Filter tab switching
     if (filterTabs) {
       filterTabs.addEventListener('click', handleFilterClick);
     }
 
-    // Event delegation on Book List for Status Change & Delete
+    // Book list delegation for status changes and deletion
     if (bookList) {
       bookList.addEventListener('change', handleListChange);
       bookList.addEventListener('click', handleListClick);
@@ -203,7 +198,6 @@
     }
 
     if (hasError) {
-      // Focus first erroneous input
       if (!titleValue) {
         bookTitleInput.focus();
       } else if (!authorValue) {
@@ -212,7 +206,7 @@
       return;
     }
 
-    // Create new book object (newest first: placed at start of array)
+    // Create new book (placed first: newest books first)
     const newBook = {
       id: 'book-' + Date.now() + '-' + Math.random().toString(36).substring(2, 7),
       title: titleValue,
@@ -221,7 +215,6 @@
       createdAt: Date.now()
     };
 
-    // Prepend to books list
     books.unshift(newBook);
     saveBooks();
 
@@ -233,8 +226,6 @@
 
     // Re-render
     renderApp();
-
-    // Gentle focus return
     bookTitleInput.focus();
   }
 
@@ -267,7 +258,7 @@
   }
 
   function handleFilterClick(e) {
-    const tabBtn = e.target.closest('.tab-btn');
+    const tabBtn = e.target.closest('.tab-pill');
     if (!tabBtn) return;
 
     const filter = tabBtn.getAttribute('data-filter');
@@ -275,24 +266,21 @@
 
     currentStatusFilter = filter;
 
-    // Update active tab styles
-    const allTabs = filterTabs.querySelectorAll('.tab-btn');
+    const allTabs = filterTabs.querySelectorAll('.tab-pill');
     allTabs.forEach(tab => tab.classList.remove('active'));
     tabBtn.classList.add('active');
 
     renderFilteredBooks();
   }
 
-  // Case-insensitive matching for both title AND author
+  // Case-insensitive search across title AND author
   function filterBooks() {
     let result = [...books];
 
-    // Status filter
     if (currentStatusFilter && currentStatusFilter !== 'All') {
       result = result.filter(book => book.status === currentStatusFilter);
     }
 
-    // Search query filter (matches "ben", "BEN", etc.)
     if (currentSearchQuery) {
       const q = currentSearchQuery.toLowerCase();
       result = result.filter(book => {
@@ -331,7 +319,6 @@
     const bookId = deleteBtn.getAttribute('data-book-id');
     if (!bookId) return;
 
-    // Find and remove book
     const index = books.findIndex(b => b.id === bookId);
     if (index !== -1) {
       books.splice(index, 1);
@@ -347,7 +334,6 @@
   function renderApp() {
     updateStatsBar();
     renderFilteredBooks();
-    updateNotebookSticker();
   }
 
   function updateStatsBar() {
@@ -356,33 +342,21 @@
     const reading = books.filter(b => b.status === 'Reading').length;
     const finished = books.filter(b => b.status === 'Finished').length;
 
-    // Top Stats Bar
     if (statTotal) statTotal.textContent = total;
     if (statToRead) statToRead.textContent = toRead;
     if (statReading) statReading.textContent = reading;
     if (statFinished) statFinished.textContent = finished;
 
-    // Filter Tab Count Badges
     if (countFilterAll) countFilterAll.textContent = total;
     if (countFilterToRead) countFilterToRead.textContent = toRead;
     if (countFilterReading) countFilterReading.textContent = reading;
     if (countFilterFinished) countFilterFinished.textContent = finished;
   }
 
-  function updateNotebookSticker() {
-    if (stickerUserName) {
-      stickerUserName.textContent = 'Avid Bookworm';
-    }
-    if (stickerUserStatus) {
-      const count = books.length;
-      stickerUserStatus.textContent = count === 1 ? '1 Book Tracked' : `${count} Books Tracked`;
-    }
-  }
-
   function renderFilteredBooks() {
     const filtered = filterBooks();
 
-    // Update List Meta Heading
+    // List Meta with Proper Capitalization
     if (listHeading) {
       if (currentStatusFilter === 'All') {
         listHeading.textContent = 'All Books';
@@ -395,23 +369,22 @@
       if (currentSearchQuery) {
         listSub.textContent = `Showing ${filtered.length} matching "${currentSearchQuery}"`;
       } else {
-        listSub.textContent = `Showing ${filtered.length} books • Newest first`;
+        listSub.textContent = `Showing ${filtered.length} books • Newest First`;
       }
     }
 
-    // Toggle Empty State vs Book List
     if (filtered.length === 0) {
       if (bookList) bookList.innerHTML = '';
       if (emptyState) {
         emptyState.style.display = 'block';
         if (currentSearchQuery) {
-          if (emptyTitle) emptyTitle.textContent = `No books match "${currentSearchQuery}"`;
+          if (emptyTitle) emptyTitle.textContent = `No Books Match "${currentSearchQuery}"`;
           if (emptyDesc) emptyDesc.textContent = 'Check your spelling or search for another author or title keyword.';
         } else if (currentStatusFilter !== 'All') {
-          if (emptyTitle) emptyTitle.textContent = `No books in "${currentStatusFilter}"`;
+          if (emptyTitle) emptyTitle.textContent = `No Books in "${currentStatusFilter}"`;
           if (emptyDesc) emptyDesc.textContent = `You don't have any books marked as "${currentStatusFilter}" yet.`;
         } else {
-          if (emptyTitle) emptyTitle.textContent = 'Your bookshelf is empty';
+          if (emptyTitle) emptyTitle.textContent = 'Your Bookshelf is Empty';
           if (emptyDesc) emptyDesc.textContent = 'Add your first book using the form on the left to start tracking!';
         }
       }
@@ -420,13 +393,11 @@
 
     if (emptyState) emptyState.style.display = 'none';
 
-    // Build Book Cards HTML
     if (bookList) {
       bookList.innerHTML = filtered.map(book => createBookCardHTML(book)).join('');
     }
   }
 
-  // Escape HTML helper to prevent XSS
   function escapeHTML(str) {
     if (!str) return '';
     return str
@@ -450,38 +421,38 @@
     const safeStatus = book.status || 'To read';
     const dateFormatted = formatDate(book.createdAt);
 
-    let statusClass = 'badge-toread';
+    let statusClass = 'status-toread';
+    let statusLabelCaps = 'TO READ';
     let statusIcon = '⏳';
+
     if (safeStatus === 'Reading') {
-      statusClass = 'badge-reading';
+      statusClass = 'status-reading';
+      statusLabelCaps = 'READING';
       statusIcon = '📖';
     } else if (safeStatus === 'Finished') {
-      statusClass = 'badge-finished';
+      statusClass = 'status-finished';
+      statusLabelCaps = 'FINISHED';
       statusIcon = '🏆';
     }
 
-    // Get an initial letter for the tactile spine thumbnail
     const initialLetter = safeTitle.charAt(0).toUpperCase() || 'B';
 
     return `
       <li class="book-card" data-book-id="${book.id}">
-        <!-- Tactile Spine Accent Stripe -->
-        <div class="book-card-accent ${statusClass}"></div>
-
-        <!-- Book Jacket Thumbnail -->
-        <div class="book-spine-thumb ${statusClass}">
-          <span class="spine-letter">${initialLetter}</span>
+        <!-- Book Jacket Badge Icon -->
+        <div class="book-badge-icon ${statusClass}">
+          <span class="badge-letter">${initialLetter}</span>
         </div>
 
-        <!-- Book Core Information -->
-        <div class="book-info">
-          <h4 class="book-title" title="${safeTitle}">${safeTitle}</h4>
-          <p class="book-author">
-            <span class="author-prefix">by</span>
+        <!-- Book Details -->
+        <div class="book-details">
+          <h4 class="book-card-title" title="${safeTitle}">${safeTitle}</h4>
+          <p class="book-card-author">
+            <span class="by-text">By</span>
             <span class="author-name">${safeAuthor}</span>
           </p>
-          <div class="book-meta-date">
-            <svg class="meta-calendar-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+          <div class="book-card-meta">
+            <svg class="meta-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
               <line x1="16" y1="2" x2="16" y2="6"></line>
               <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -491,14 +462,13 @@
           </div>
         </div>
 
-        <!-- Book Actions: Interactive Status Dropdown & Delete -->
+        <!-- Status Change Dropdown & Actions -->
         <div class="book-actions">
-          <!-- Status Selector Pill -->
-          <div class="status-pill-control">
-            <div class="status-badge ${statusClass}">
-              <span class="status-icon">${statusIcon}</span>
-              <span class="status-text">${safeStatus}</span>
-              <svg class="status-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+          <div class="status-selector-pill">
+            <div class="status-btn-pill ${statusClass}">
+              <span class="status-emoji">${statusIcon}</span>
+              <span class="status-caps-text">${statusLabelCaps}</span>
+              <svg class="chevron-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </div>
@@ -510,8 +480,8 @@
           </div>
 
           <!-- Delete Button -->
-          <button type="button" class="btn-delete-book" data-book-id="${book.id}" title="Remove book from shelf" aria-label="Delete ${safeTitle}">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <button type="button" class="btn-delete-book" data-book-id="${book.id}" title="Remove from Bookshelf" aria-label="Delete ${safeTitle}">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="3 6 5 6 21 6"></polyline>
               <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
               <line x1="10" y1="11" x2="10" y2="17"></line>
@@ -523,7 +493,6 @@
     `;
   }
 
-  // Kickstart Application on DOM ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initApp);
   } else {

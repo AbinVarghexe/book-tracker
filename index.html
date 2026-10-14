@@ -3,49 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SuperrBook — Keep Track of What You Read</title>
+  <title>SuperrBook — Keep Track of Every Book You Read</title>
   
-  <!-- Typography: Fraunces (warm serif display) & Inter (clean UI body) & Patrick Hand (handwritten accents) -->
+  <!-- Typography: Nunito (Chubby rounded display & clean UI - official Feather substitute) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="styles.css?v=3.0">
+  <link rel="stylesheet" href="styles.css?v=4.0">
 </head>
 <body>
 
   <!-- =======================================================================
-       TOP NAVIGATION BAR
+       TOP NAVIGATION BAR (Duolingo Style: White Canvas with Clean Nav Labels)
        ======================================================================= -->
   <header class="top-nav">
     <div class="nav-container">
-      <!-- Top-left Brand Mark -->
-      <a href="#hero" class="brand" title="superrbook home">
-        <div class="brand-icon-wrap">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-0.5-5Z"/>
-            <path d="M6 2v20"/>
-            <circle cx="12" cy="8" r="1.5" fill="currentColor"/>
+      <!-- Brand Logo -->
+      <a href="#hero" class="brand" title="SuperrBook Home">
+        <div class="brand-mascot-wrap">
+          <svg viewBox="0 0 36 36" width="28" height="28" fill="none">
+            <!-- Playful Reading Owl / Mascot Face -->
+            <ellipse cx="18" cy="18" rx="16" ry="15" fill="#58cc02"/>
+            <ellipse cx="18" cy="20" rx="11" ry="10" fill="#a5ed6e"/>
+            <!-- Large Friendly Eyes -->
+            <circle cx="12.5" cy="14" r="5" fill="#ffffff"/>
+            <circle cx="23.5" cy="14" r="5" fill="#ffffff"/>
+            <circle cx="13.5" cy="14" r="2.8" fill="#4b4b4b"/>
+            <circle cx="22.5" cy="14" r="2.8" fill="#4b4b4b"/>
+            <circle cx="14.5" cy="13" r="1" fill="#ffffff"/>
+            <circle cx="23.5" cy="13" r="1" fill="#ffffff"/>
+            <!-- Cute Orange Beak -->
+            <polygon points="18,17 15,22 21,22" fill="#ff9600"/>
           </svg>
         </div>
-        <span class="brand-name">superrbook.</span>
+        <span class="brand-name">SuperrBook</span>
       </a>
 
-      <!-- Center Navigation Links -->
+      <!-- Uppercase Nav Labels (Duolingo 15px uppercase, tracking 0.053em) -->
       <nav class="nav-links">
-        <a href="#hero" class="nav-link">home</a>
-        <a href="#features" class="nav-link">story</a>
-        <a href="#tracker" class="nav-link">my books</a>
+        <a href="#hero" class="nav-link">HOME</a>
+        <a href="#features" class="nav-link">HOW IT WORKS</a>
+        <a href="#tracker" class="nav-link">MY BOOKSHELF</a>
       </nav>
 
-      <!-- Right Action Pill (No Auth, Instant Action) -->
+      <!-- Action Button -->
       <div class="nav-actions">
-        <a href="#tracker" class="btn-pill nav-cta-pill" title="Jump straight to reading dashboard">
-          <span>open tracker</span>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <polyline points="19 12 12 19 5 12"></polyline>
-          </svg>
+        <a href="#tracker" class="btn-duo btn-nav-cta">
+          <span>OPEN TRACKER</span>
         </a>
       </div>
     </div>
@@ -54,80 +59,78 @@
   <main>
     
     <!-- =======================================================================
-         LANDING HERO SECTION (Tactile Notebook & Warm Afternoon Light)
+         HERO SECTION (Mascot Storybook on White Paper)
          ======================================================================= -->
     <section class="hero-section" id="hero">
       <div class="hero-container">
         
-        <!-- Left Column: Editorial Headline & Actions -->
+        <!-- Left: Copy & Actions -->
         <div class="hero-text-col">
-          <div class="script-caption-wrap">
-            <span class="handwritten-caption">dear bookworms,</span>
-            <svg class="hand-drawn-arrow" viewBox="0 0 70 35" width="55" height="28" fill="none" stroke="var(--color-charcoal)" stroke-width="1.6">
-              <path d="M5 28 C 25 32, 45 25, 60 10 M 52 8 L 60 10 L 58 18" stroke-linecap="round"/>
-            </svg>
+          <div class="hero-pill-badge">
+            <span class="badge-dot">●</span>
+            <span>THE FREE, FUN & EFFECTIVE READING TRACKER</span>
           </div>
 
-          <h1 class="display-headline">meet superrbook.</h1>
+          <h1 class="hero-title">Keep Track of Every Book You Read.</h1>
           
-          <p class="hero-body">
-            A warm, unhurried space to track every book on your nightstand. Log your pages, sort your pace, and build your reading journey <span class="marker-highlight">actually!</span>
+          <p class="hero-description">
+            Build a consistent reading habit with zero stress. Log your books, monitor your progress, and celebrate every finished page on your personal bookshelf.
           </p>
 
-          <div class="hero-cta-group">
-            <a href="#tracker" class="btn-pill btn-hero-cta">
-              <span>open my tracker</span>
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
+          <div class="hero-action-group">
+            <a href="#tracker" class="btn-duo btn-primary btn-hero">
+              <span>START TRACKING FOR FREE</span>
             </a>
-            <p class="preorder-info-block">Zero setup required • Private in your browser</p>
+            <a href="#features" class="btn-duo btn-secondary btn-hero-secondary">
+              <span>HOW IT WORKS</span>
+            </a>
           </div>
 
-          <!-- Feature mini-pills -->
-          <div class="hero-tags">
-            <span class="tag-sticker tag-sprout">✓ Newest books first</span>
-            <span class="tag-sticker tag-sky">🔍 Instant title/author search</span>
-            <span class="tag-sticker tag-bubblegum">💾 100% Private Local Storage</span>
+          <!-- Feature Tags -->
+          <div class="hero-features-list">
+            <span class="hero-tag-item"><span class="check-icon">✓</span> Newest Books First</span>
+            <span class="hero-tag-item"><span class="check-icon">✓</span> Instant Title & Author Search</span>
+            <span class="hero-tag-item"><span class="check-icon">✓</span> 100% Private Local Storage</span>
           </div>
         </div>
 
-        <!-- Right Column: Tactile Notebook Object with Stickers -->
+        <!-- Right: Playful Mascot Illustration -->
         <div class="hero-visual-col">
-          <div class="notebook-wrapper">
-            
-            <!-- Floating Illustrated Stickers -->
-            <div class="sticker sticker-lightning" title="Lightning read!">⚡</div>
-            <div class="sticker sticker-bear" title="Bookworm friend">🐻</div>
-            <div class="sticker sticker-sparkle" title="Favorite!">✨</div>
-            <div class="sticker sticker-heart" title="Loved it">🧡</div>
-
-            <!-- Photographed Leather Notebook Replica -->
-            <div class="notebook-object">
-              <div class="notebook-spine"></div>
-              <div class="notebook-cover">
-                <!-- White Laminated Name Label Sticker -->
-                <div class="name-label-sticker">
-                  <div class="sticker-line">
-                    <span class="sticker-field">NAME:</span>
-                    <span class="sticker-val" id="stickerUserName">Avid Reader</span>
-                  </div>
-                  <div class="sticker-line">
-                    <span class="sticker-field">COLLECTION:</span>
-                    <span class="sticker-val">My Reading Log</span>
-                  </div>
-                  <div class="sticker-line">
-                    <span class="sticker-field">STATUS:</span>
-                    <span class="sticker-val" id="stickerUserStatus">3 Books Logged</span>
-                  </div>
-                </div>
-
-                <div class="notebook-ribbon"></div>
-                <div class="notebook-pencil"></div>
+          <div class="mascot-stage">
+            <div class="mascot-card">
+              <!-- Illustrated Duolingo-style Reading Character -->
+              <svg class="mascot-illustration" viewBox="0 0 260 260" width="220" height="220">
+                <!-- Mascot Body -->
+                <ellipse cx="130" cy="140" rx="75" ry="85" fill="#58cc02"/>
+                <ellipse cx="130" cy="155" rx="52" ry="60" fill="#a5ed6e"/>
+                <!-- Cheerful Wings Holding a Book -->
+                <path d="M55,140 Q40,110 70,165" stroke="#46a302" stroke-width="12" stroke-linecap="round" fill="none"/>
+                <path d="M205,140 Q220,110 190,165" stroke="#46a302" stroke-width="12" stroke-linecap="round" fill="none"/>
+                <!-- Huge Mascot Eyes -->
+                <circle cx="105" cy="115" r="24" fill="#ffffff" stroke="#e5e5e5" stroke-width="2"/>
+                <circle cx="155" cy="115" r="24" fill="#ffffff" stroke="#e5e5e5" stroke-width="2"/>
+                <circle cx="110" cy="115" r="13" fill="#4b4b4b"/>
+                <circle cx="150" cy="115" r="13" fill="#4b4b4b"/>
+                <!-- Eye Sparkles -->
+                <circle cx="114" cy="110" r="5" fill="#ffffff"/>
+                <circle cx="154" cy="110" r="5" fill="#ffffff"/>
+                <!-- Cute Orange Beak -->
+                <polygon points="130,128 116,148 144,148" fill="#ff9600"/>
+                <polygon points="130,148 120,158 140,158" fill="#e08500"/>
+                <!-- Orange Feet -->
+                <ellipse cx="105" cy="225" rx="16" ry="7" fill="#ff9600"/>
+                <ellipse cx="155" cy="225" rx="16" ry="7" fill="#ff9600"/>
+                <!-- The Open Storybook in Hands -->
+                <path d="M90,175 Q130,185 170,175 L170,205 Q130,215 90,205 Z" fill="#1cb0f6"/>
+                <path d="M95,178 Q130,186 165,178 L165,202 Q130,210 95,202 Z" fill="#ffffff"/>
+                <line x1="130" y1="180" x2="130" y2="208" stroke="#1899d6" stroke-width="2"/>
+              </svg>
+              
+              <!-- Floating Speech Bubble -->
+              <div class="speech-bubble">
+                <span class="bubble-text">Ready to read today? 📖</span>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -135,118 +138,136 @@
     </section>
 
     <!-- =======================================================================
-         FEATURES / STORY SECTION (Grounded in Refero Design)
+         FEATURES / HOW IT WORKS SECTION
          ======================================================================= -->
-    <section class="story-section" id="features">
+    <section class="features-section" id="features">
       <div class="section-container">
+        
         <div class="section-header">
-          <span class="handwritten-caption orange-caption">how it works</span>
-          <h2 class="section-title">simple as pen & paper.</h2>
-          <p class="section-subtitle">No overwhelming social feeds, algorithms, or logins. Just you, your books, and your honest reading pace.</p>
+          <span class="section-tag-caps">HOW IT WORKS</span>
+          <h2 class="section-title">Simple, Fun, and Effective.</h2>
+          <p class="section-subtitle">
+            No social noise, algorithms, or logins. Just you, your books, and steady reading habits.
+          </p>
         </div>
 
         <div class="features-grid">
-          <!-- Step 1 Card -->
-          <div class="feature-card">
-            <div class="feature-card-header">
-              <span class="step-chip">STEP 01</span>
-              <div class="feature-sticker sticker-rot-1">✍️</div>
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-icon-wrap icon-green">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
             </div>
-            <h3 class="feature-title">add in seconds</h3>
-            <p class="feature-text">Type the book title and author, pick your status (To read, Reading, or Finished), and drop it straight into your log with zero friction.</p>
+            <span class="step-num-caps">STEP 01</span>
+            <h3 class="step-heading">Add in Seconds</h3>
+            <p class="step-desc">
+              Enter the book title, author name, and reading status (To Read, Reading, or Finished). Click Add and your book appears instantly at the top of your list.
+            </p>
           </div>
 
-          <!-- Step 2 Card -->
-          <div class="feature-card highlight-card">
-            <div class="feature-card-header">
-              <span class="step-chip">STEP 02</span>
-              <div class="feature-sticker sticker-rot-2">⚡</div>
+          <!-- Step 2 -->
+          <div class="step-card highlight">
+            <div class="step-icon-wrap icon-blue">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
             </div>
-            <h3 class="feature-title">search like lightning</h3>
-            <p class="feature-text">Find any book instantly as you type. Real-time case-insensitive search handles "ben", "BEN", or "Aadujeevitham" without skipping a beat.</p>
+            <span class="step-num-caps">STEP 02</span>
+            <h3 class="step-heading">Lightning Search</h3>
+            <p class="step-desc">
+              Search any title or author in real time. Our search is completely case-insensitive, finding "ben", "BEN", or "Aadujeevitham" instantly.
+            </p>
           </div>
 
-          <!-- Step 3 Card -->
-          <div class="feature-card">
-            <div class="feature-card-header">
-              <span class="step-chip">STEP 03</span>
-              <div class="feature-sticker sticker-rot-3">💾</div>
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-icon-wrap icon-orange">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
             </div>
-            <h3 class="feature-title">saved forever</h3>
-            <p class="feature-text">Every book is safely preserved in your browser's local storage. Close the tab or restart your device — your reading log remains intact.</p>
+            <span class="step-num-caps">STEP 03</span>
+            <h3 class="step-heading">Saved Forever</h3>
+            <p class="step-desc">
+              Every book and status update is automatically stored in your browser's private local storage. Your bookshelf remains intact when you reload or return later.
+            </p>
           </div>
         </div>
+
       </div>
     </section>
 
     <!-- =======================================================================
-         THE BOOK TRACKER APP SECTION (Tactile Reading Dashboard)
+         READING DASHBOARD SECTION (Duolingo Style Bookshelf)
          ======================================================================= -->
     <section class="tracker-section" id="tracker">
       <div class="section-container">
         
-        <!-- Dashboard Section Header -->
+        <!-- Header -->
         <div class="tracker-header">
-          <div class="tracker-headline-wrap">
-            <span class="handwritten-caption orange-caption">my personal bookshelf</span>
-            <h2 class="section-title">reading dashboard.</h2>
+          <div>
+            <span class="section-tag-caps">MY READING DASHBOARD</span>
+            <h2 class="section-title">Your Personal Bookshelf.</h2>
           </div>
-
-          <!-- Offline / Local Storage Badge -->
-          <div class="active-library-banner">
-            <span class="library-dot">●</span>
-            <span id="activeLibraryLabel">Private Local Library</span>
+          <div class="sync-badge">
+            <span class="sync-dot">●</span>
+            <span class="sync-text">Private Local Storage</span>
           </div>
         </div>
 
-        <!-- Live Stats Bar (Tactile Metric Cards) -->
+        <!-- Live Stats Counters (Duolingo 3D Chunky Cards) -->
         <div class="stats-bar" id="statsBar">
           <div class="stat-card stat-total">
-            <div class="stat-card-header">
+            <div class="stat-header">
               <span class="stat-icon">📚</span>
-              <span class="stat-label">Total Books</span>
+              <span class="stat-label">TOTAL BOOKS</span>
             </div>
             <span class="stat-value" id="statTotal">0</span>
           </div>
           <div class="stat-card stat-toread">
-            <div class="stat-card-header">
+            <div class="stat-header">
               <span class="stat-icon">⏳</span>
-              <span class="stat-label">To read</span>
+              <span class="stat-label">TO READ</span>
             </div>
             <span class="stat-value" id="statToRead">0</span>
           </div>
           <div class="stat-card stat-reading">
-            <div class="stat-card-header">
+            <div class="stat-header">
               <span class="stat-icon">📖</span>
-              <span class="stat-label">Reading</span>
+              <span class="stat-label">READING</span>
             </div>
             <span class="stat-value" id="statReading">0</span>
           </div>
           <div class="stat-card stat-finished">
-            <div class="stat-card-header">
+            <div class="stat-header">
               <span class="stat-icon">🏆</span>
-              <span class="stat-label">Finished</span>
+              <span class="stat-label">FINISHED</span>
             </div>
             <span class="stat-value" id="statFinished">0</span>
           </div>
         </div>
 
-        <!-- App Layout: Two Columns (Add Form Slip & Book List Shelf) -->
+        <!-- Two Column Layout: Add Book Form + Book List -->
         <div class="app-layout">
           
-          <!-- Left Column: Add Book Form Slip -->
+          <!-- Left Column: Add Book Form Card -->
           <aside class="form-column">
-            <div class="add-book-card">
+            <div class="duo-card add-book-card">
               <div class="card-header">
-                <span class="card-badge-pill">★ LOG A NEW BOOK</span>
-                <h3 class="card-title">add a book</h3>
-                <p class="card-desc">Fill in the reading slip to add to your bookshelf</p>
+                <span class="card-tag">NEW ENTRY</span>
+                <h3 class="card-title">Log a New Book</h3>
+                <p class="card-subtitle">Fill in the details to add to your bookshelf</p>
               </div>
 
               <form id="bookForm" novalidate>
-                <!-- Title Field -->
+                <!-- Title -->
                 <div class="form-group">
-                  <label for="bookTitle" class="form-label">Book Title <span class="required">*</span></label>
+                  <label for="bookTitle" class="form-label">Book Title <span class="required-star">*</span></label>
                   <input 
                     type="text" 
                     id="bookTitle" 
@@ -258,9 +279,9 @@
                   <span class="error-msg" id="titleError" aria-live="polite"></span>
                 </div>
 
-                <!-- Author Field -->
+                <!-- Author -->
                 <div class="form-group">
-                  <label for="bookAuthor" class="form-label">Author <span class="required">*</span></label>
+                  <label for="bookAuthor" class="form-label">Author <span class="required-star">*</span></label>
                   <input 
                     type="text" 
                     id="bookAuthor" 
@@ -272,7 +293,7 @@
                   <span class="error-msg" id="authorError" aria-live="polite"></span>
                 </div>
 
-                <!-- Status Selector -->
+                <!-- Status -->
                 <div class="form-group">
                   <label for="bookStatus" class="form-label">Reading Status</label>
                   <div class="select-wrapper">
@@ -281,15 +302,15 @@
                       <option value="Reading">Reading</option>
                       <option value="Finished">Finished</option>
                     </select>
-                    <svg class="select-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg class="select-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
                       <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                   </div>
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="btn-pill btn-primary-submit" id="addBookBtn">
-                  <span>add book to shelf</span>
+                <button type="submit" class="btn-duo btn-primary btn-submit-full" id="addBookBtn">
+                  <span>ADD TO BOOKSHELF</span>
                   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -299,14 +320,14 @@
             </div>
           </aside>
 
-          <!-- Right Column: Search, Filter Tabs & Books Shelf -->
+          <!-- Right Column: Search Toolbar & Book Cards -->
           <section class="list-column">
             
-            <!-- Controls Toolbar (Unified Search & Tabs) -->
-            <div class="controls-panel">
+            <!-- Unified Controls Toolbar -->
+            <div class="controls-toolbar">
               <!-- Search Box -->
               <div class="search-box">
-                <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
                   <circle cx="11" cy="11" r="8"></circle>
                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
@@ -314,40 +335,38 @@
                   type="text" 
                   id="searchInput" 
                   class="search-input" 
-                  placeholder="Search by title or author... (e.g. ben, alchemist)"
+                  placeholder="Search by Title or Author... (e.g. Ben, Alchemist)"
                   autocomplete="off"
                 >
-                <button type="button" id="clearSearchBtn" class="clear-search-btn" title="Clear search" aria-label="Clear search" style="display: none;">
+                <button type="button" id="clearSearchBtn" class="clear-search-btn" title="Clear Search" aria-label="Clear Search" style="display: none;">
                   &times;
                 </button>
               </div>
 
-              <!-- Filter Tabs (Pill Segmented Switcher) -->
+              <!-- Filter Tabs (Pill Buttons with Uppercase Labels) -->
               <div class="filter-tabs" role="tablist" id="filterTabs">
-                <button type="button" class="tab-btn active" data-filter="All">all (<span id="countFilterAll">0</span>)</button>
-                <button type="button" class="tab-btn" data-filter="To read">to read (<span id="countFilterToRead">0</span>)</button>
-                <button type="button" class="tab-btn" data-filter="Reading">reading (<span id="countFilterReading">0</span>)</button>
-                <button type="button" class="tab-btn" data-filter="Finished">finished (<span id="countFilterFinished">0</span>)</button>
+                <button type="button" class="tab-pill active" data-filter="All">ALL (<span id="countFilterAll">0</span>)</button>
+                <button type="button" class="tab-pill" data-filter="To read">TO READ (<span id="countFilterToRead">0</span>)</button>
+                <button type="button" class="tab-pill" data-filter="Reading">READING (<span id="countFilterReading">0</span>)</button>
+                <button type="button" class="tab-pill" data-filter="Finished">FINISHED (<span id="countFilterFinished">0</span>)</button>
               </div>
             </div>
 
             <!-- List Meta -->
             <div class="list-meta">
               <span class="list-heading" id="listHeading">All Books</span>
-              <span class="list-sub" id="listSub">Newest first</span>
+              <span class="list-sub" id="listSub">Newest First</span>
             </div>
 
-            <!-- The Book List -->
+            <!-- Books List -->
             <ul id="bookList" class="book-list">
-              <!-- Dynamically populated by app.js -->
+              <!-- Rendered dynamically by app.js -->
             </ul>
 
             <!-- Empty State -->
             <div id="emptyState" class="empty-state" style="display: none;">
-              <div class="empty-icon-wrap">
-                <span class="empty-sticker">📖</span>
-              </div>
-              <h3 class="empty-title" id="emptyTitle">No books found</h3>
+              <div class="empty-mascot-circle">📖</div>
+              <h3 class="empty-title" id="emptyTitle">No Books Found</h3>
               <p class="empty-desc" id="emptyDesc">Add your first book using the form on the left to start tracking!</p>
             </div>
 
@@ -361,17 +380,23 @@
   </main>
 
   <!-- =======================================================================
-       SUPER FOOTER BRAND BAND (Marker Orange with 56px curved top)
+       FOOTER BRAND BAND (Duolingo Eager Green #58cc02 Full-Bleed Surface)
        ======================================================================= -->
-  <footer class="footer-brand-band">
-    <div class="footer-content">
+  <footer class="footer-green-band">
+    <div class="footer-container">
       <div class="footer-top">
-        <span class="footer-tagline">superrbook. reading without rushing.</span>
-        <span class="footer-quote">"we're done, and we had fun."</span>
+        <div class="footer-brand-wrap">
+          <span class="footer-brand-title">SuperrBook</span>
+          <span class="footer-tagline">Reading without rushing.</span>
+        </div>
+        <div class="footer-quote">
+          "The free, fun, and effective way to track your reading journey."
+        </div>
       </div>
+
       <div class="footer-bottom">
-        <p class="footer-copy">Built with HTML, CSS & Vanilla JS • Styled with Superr Design System</p>
-        <a href="#hero" class="footer-back-to-top">back to top ↑</a>
+        <p class="footer-copy">Built with HTML, CSS & Vanilla JS • Styled in Duolingo Classroom Aesthetic</p>
+        <a href="#hero" class="footer-back-link">BACK TO TOP ↑</a>
       </div>
     </div>
   </footer>

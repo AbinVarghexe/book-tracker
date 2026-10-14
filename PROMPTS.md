@@ -102,3 +102,21 @@ Added the live search bar with instant query matching, status filter tabs, anima
    - Implemented `sidecars/panel/main.mjs` serving the UI with `/preload.js` bridge for Antigravity's side pane.
    - Installed to `%USERPROFILE%\.gemini\config\plugins\book-tracker\` for instant discovery in Antigravity.
 
+---
+
+### Prompt 10: Duolingo Style Reference & Proper UI Capitalization
+**Prompt:**  
+> "Use captiall letters in the UI properlu and redisitgn the UI: Duolingo — Style Reference: Playful classroom mascot on white paper"
+
+**What happened & How it was resolved:**  
+1. **Proper UI Capitalization:**  
+   - Replaced all all-lowercase branding and typography with proper Title Case and intentional uppercase formatting.
+   - Set navigation links (`HOME`, `HOW IT WORKS`, `MY BOOKSHELF`) and action buttons (`OPEN TRACKER`, `START TRACKING FOR FREE`, `ADD TO BOOKSHELF`) to clean, bold uppercase with letter-spacing `0.053em` following Duolingo specifications.
+   - Ensured all card headers, form labels (`Book Title *`, `Author *`, `Reading Status`), meta tags (`Newest First`), and status pills (`TO READ`, `READING`, `FINISHED`) use proper capital letters.
+2. **Duolingo Style System Implementation:**  
+   - **Canvas & Colors:** Pure white paper canvas (`#ffffff`), signature Eager Green (`#58cc02`), Storybook Green (`#d7ffb8`), Spark Blue (`#1cb0f6`), Amber Gold (`#ff9600`), Charcoal (`#4b4b4b`), and Pencil Gray (`#777777`).
+   - **Chunky 3D Buttons & Cards:** Implemented Duolingo's signature 3D pressed bevels (`border: 2px solid; border-bottom: 4px solid <darker-tone>; border-radius: 14px-16px;`) that depress 2px on click.
+   - **Playful Reading Mascot:** Created a vector classroom reading mascot with a floating speech bubble (`"Ready to read today? 📖"`).
+   - **Full-Width Green Footer:** Added the signature full-bleed Eager Green (`#58cc02`) footer band.
+
+
