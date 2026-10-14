@@ -186,12 +186,15 @@
       formStatusTrigger.setAttribute('aria-expanded', 'false');
     }
 
-    // Close all open in-card popovers
+    // Close all open in-card popovers and reset card stacking context
     document.querySelectorAll('.card-status-popover').forEach(menu => {
       menu.style.display = 'none';
     });
     document.querySelectorAll('.status-btn-pill').forEach(btn => {
       btn.setAttribute('aria-expanded', 'false');
+    });
+    document.querySelectorAll('.book-card').forEach(card => {
+      card.classList.remove('dropdown-active');
     });
   }
 
@@ -400,12 +403,17 @@
       e.stopPropagation();
       const bookId = triggerBtn.getAttribute('data-book-id');
       const popover = document.getElementById(`statusPopover-${bookId}`);
+      const parentCard = triggerBtn.closest('.book-card');
+
       if (popover) {
         const isOpen = popover.style.display === 'flex';
         closeAllDropdowns();
         if (!isOpen) {
           popover.style.display = 'flex';
           triggerBtn.setAttribute('aria-expanded', 'true');
+          if (parentCard) {
+            parentCard.classList.add('dropdown-active');
+          }
         }
       }
       return;

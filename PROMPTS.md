@@ -131,5 +131,22 @@ Added the live search bar with instant query matching, status filter tabs, anima
    - **In-Card Status Dropdown:** Replaced the invisible overlay select with a custom 3D popover menu (`.card-status-popover`) anchored directly below each status pill. Clicking the badge opens a Duolingo popover with option highlights and active checkmarks.
    - **Accessibility & Dismissal:** Implemented click-outside detection and `Escape` key handlers to close all open dropdowns automatically.
 
+---
+
+### Prompt 12: Dropdown Stacking Context Bug Fix
+**Prompt:**  
+> "There's a bug in the dropdown. It is not appearing above the selector. Please fix that. Provided the image to" (with screenshot showing the opened dropdown menu appearing underneath the blue status button of the adjacent card below).
+
+**What happened & How it was resolved:**  
+1. **Diagnosis & Reflection:**  
+   - In CSS, sibling DOM nodes that appear later in the tree (the second `.book-card`) naturally stack on top of earlier nodes when both have positioning or `transform` styles.
+   - Even though the `.card-status-popover` had `z-index: 60`, its stacking context was bound to the first `.book-card`. Consequently, the adjacent card below and its blue `READING` button rendered on top of the open dropdown menu, obscuring the "FINISHED" option.
+2. **Fix Implemented:**  
+   - Updated `app.js` to dynamically add the `.dropdown-active` class to the parent `.book-card` whenever its popover is opened, and remove it on close.
+   - Set `.book-card.dropdown-active` to `z-index: 200 !important; transform: none !important;` in `styles.css`.
+   - Elevated `.card-status-popover` to `z-index: 9999 !important;` with an elevated 3D shadow (`box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18)`).
+   - This ensures the opened popover floats cleanly and unconditionally on top of all adjacent cards, selectors, and buttons.
+
+
 
 
